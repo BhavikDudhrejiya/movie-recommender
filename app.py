@@ -23,6 +23,15 @@ def load_data():
     df = pd.read_csv(path)
     return df
 
+
+@st.cache
+def load_embeddings():
+    url2 = 'https://drive.google.com/file/d/1Rp3Ay3oyQzEj1IUwZm0kTD8AmbjMCvwA/view?usp=sharing'
+    path2 = 'https://drive.google.com/uc?export=download&id='+url2.split('/')[-2]
+    df2 = pd.read_csv(path2, compression='gzip')
+    return df2
+
+
 def fetch_poster(movie_id):
     response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=a984a10e30d9db72dac2c18a4b9f79f3")
     data = response.json()
@@ -44,9 +53,7 @@ def recommender(movies, top_n):
 #Loading data-----------------------------------------------------------------------------------------------------------
 movies_name = load_movies()
 movies_data = load_data()
-
-with open("similarity_pkl","rb") as f:
-    similarity = pickle.load(f)
+similarity = load_embeddings().values
 
 #Page Layout------------------------------------------------------------------------------------------------------------
 st.title('Movie Recommender System')
