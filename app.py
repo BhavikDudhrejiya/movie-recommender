@@ -11,18 +11,23 @@ from io import BytesIO
 #Functions--------------------------------------------------------------------------------------------------------------
 @st.cache()
 def load_movies():
-    df = pd.read_csv('/home/bhavik/Downloads/archive2/tmdb_5000_movies.csv', usecols=['original_title'])
+    url = 'https://drive.google.com/file/d/12-2w5tB7cS7ZgXAF_yAMFrKe2n6xHHbl/view?usp=sharing'
+    path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+    df = pd.read_csv(path, usecols=['original_title'])
     return df
 
 @st.cache()
 def load_data():
-    df = pd.read_csv('/home/bhavik/Downloads/archive2/tmdb_5000_movies.csv')
+    url = 'https://drive.google.com/file/d/12-2w5tB7cS7ZgXAF_yAMFrKe2n6xHHbl/view?usp=sharing'
+    path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+    df = pd.read_csv(path)
     return df
 
 def fetch_poster(movie_id):
     response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=a984a10e30d9db72dac2c18a4b9f79f3")
     data = response.json()
     return f"https://image.tmdb.org/t/p/w500/{data['poster_path']}"
+
 
 def recommender(movies, top_n):
   movies_index = movies_data[movies_data['original_title']==movies].index[0]
@@ -40,7 +45,7 @@ def recommender(movies, top_n):
 movies_name = load_movies()
 movies_data = load_data()
 
-with open("/home/bhavik/CIPIO Projects/Movie_recommender_system/similarity_pkl","rb") as f:
+with open("similarity_pkl","rb") as f:
     similarity = pickle.load(f)
 
 #Page Layout------------------------------------------------------------------------------------------------------------
