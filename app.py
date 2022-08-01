@@ -1,6 +1,7 @@
 #Importing libraries----------------------------------------------------------------------------------------------------
 from urllib import response
 import streamlit as st
+st.set_page_config(layout="wide")
 import pandas as pd
 import pickle
 import requests
